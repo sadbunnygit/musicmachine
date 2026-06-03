@@ -3,15 +3,27 @@
 #include <iostream>
 #include <filesystem>
 using namespace std;
-
+namespace fs = std::filesystem;
 int main() 
 {
+    string usbPath = "/Volumes/NO NAME/music"; 
+
     try 
     {
-        rename("from.txt", "to.txt");
-        cout << "trying" << endl;
+        if (!fs::exists(usbPath)) 
+        {
+            cout << "USB not found at: " << usbPath << "\n";
+            return 1;
+        }
+
+        cout << "Listing files in USB:\n";
+
+        for (const auto& entry : fs::recursive_directory_iterator(usbPath)) 
+        {
+            cout << entry.path() << "\n";
+        }
     } 
-    catch (filesystem::filesystem_error& e) 
+    catch (fs::filesystem_error& e) 
     {
         cout << e.what() << '\n';
     }

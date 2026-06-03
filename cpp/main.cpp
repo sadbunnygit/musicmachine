@@ -11,6 +11,7 @@ namespace fs = std::filesystem;
 void listFiles(string dir);
 bool confirm(const string& message);
 void removeAll(string dir);
+void copy(string from, string to);
 
 int main(int argc, char* argv[])
 {
@@ -19,7 +20,8 @@ int main(int argc, char* argv[])
 
     listFiles(musicMachine);
 
-    removeAll("/Volumes/NO NAME/music/Cat Stevens Greatest Hits 1");
+    removeAll("");
+    copy("/Volumes/sadbunnymus/Music/St Elizabeth", "/Volumes/NO NAME/music/testfile/");
 }
 
 
@@ -74,3 +76,22 @@ void removeAll(string dir)
     std::cout << "Deleted" << endl;
 }
 
+void copy(string from, string to) 
+{
+    string msg = "Coping files inside " + from + "to inside this folderS" + to;
+
+    if (!fs::exists(from)) 
+    {
+        cout << "files not found at: " << from << endl;
+        return;
+    }
+
+    if (!confirm(msg)) 
+    {
+        cout << "Aborted" << endl;
+        return;
+    }
+
+    fs::copy(from, to);
+    std::cout << "Copied" << endl;
+}

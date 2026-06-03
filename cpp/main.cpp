@@ -1,12 +1,7 @@
 
 
-#ifdef __INTELLISENSE__
 #include <iostream>
 #include <filesystem>
-#else
-import iostream;
-import filesystem;
-#endif
 using namespace std;
 
 int main() 

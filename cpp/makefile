@@ -1,23 +1,19 @@
-C = g++-15 -std=c++20 -fmodules-ts -Wall -g 
-CH = g++-15 -std=c++20 -fmodules-ts -c -x c++-system-header 
+C = clang++ -std=c++20 -Wall -g 
+CH = clang++  -std=c++20 -c -x c++-system-header 
 EXEC = test
 ZIPNAME = test
 
 INTERFACES = main.cpp
 IMPLEMENTIONS = 
 
-$(EXEC): $(INTERFACES) $(IMPLEMENTIONS) gcm.cache
+$(EXEC): $(INTERFACES) $(IMPLEMENTIONS) 
 	$(C) $(INTERFACES) $(IMPLEMENTIONS) -o $(EXEC)
 
 
 .PHONY: clean run mem debug 
 
-gcm.cache: 
-	$(CH) iostream filesystem
-
 clean: 
 	rm -f *.o $(EXEC)
-	rm -rf gcm.cache
 
 run:
 	./$(EXEC)

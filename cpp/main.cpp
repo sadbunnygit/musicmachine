@@ -9,6 +9,7 @@ int main()
     try 
     {
         rename("from.txt", "to.txt");
+        cout << "trying" << endl;
     } 
     catch (filesystem::filesystem_error& e) 
     {

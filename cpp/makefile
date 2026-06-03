@@ -14,6 +14,7 @@ $(EXEC): $(INTERFACES) $(IMPLEMENTIONS)
 
 clean: 
 	rm -f *.o $(EXEC)
+	rm -rf *.dSYM
 
 run:
 	./$(EXEC)

@@ -2,18 +2,21 @@
 // Posted by Philipp Claßen, modified by community. See post 'Timeline' for change history
 // Retrieved 2026-06-02, License - CC BY-SA 3.0
 
-import <iostream>;
-import <filesystem>;
+#ifndef __INTELLISENSE__
+import iostream;
+import filesystem;
+#endif
+using namespace std;
 
 int main() 
 {
     try 
     {
-        std::filesystem::rename("from.txt", "to.txt");
+        rename("from.txt", "to.txt");
     } 
-    catch (std::filesystem::filesystem_error& e) 
+    catch (filesystem::filesystem_error& e) 
     {
-        std::cout << e.what() << '\n';
+        scout << e.what() << '\n';
     }
     return 0;
 }

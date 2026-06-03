@@ -1,8 +1,9 @@
-// Source - https://stackoverflow.com/a/48614612
-// Posted by Philipp Claßen, modified by community. See post 'Timeline' for change history
-// Retrieved 2026-06-02, License - CC BY-SA 3.0
 
-#ifndef __INTELLISENSE__
+
+#ifdef __INTELLISENSE__
+#include <iostream>
+#include <filesystem>
+#else
 import iostream;
 import filesystem;
 #endif
@@ -16,7 +17,7 @@ int main()
     } 
     catch (filesystem::filesystem_error& e) 
     {
-        scout << e.what() << '\n';
+        cout << e.what() << '\n';
     }
     return 0;
 }

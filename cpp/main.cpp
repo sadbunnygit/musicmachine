@@ -6,19 +6,20 @@ using namespace std;
 namespace fs = std::filesystem;
 int main() 
 {
-    string usbPath = "/Volumes/NO NAME/music"; 
+    string musicMachine = "/Volumes/NO NAME/music"; 
+    string musicStore = "/Volumes/sadbunnymus"; 
 
     try 
     {
-        if (!fs::exists(usbPath)) 
+        if (!fs::exists(musicStore)) 
         {
-            cout << "USB not found at: " << usbPath << "\n";
+            cout << "USB not found at: " << musicStore << "\n";
             return 1;
         }
 
-        cout << "Listing files in USB:\n";
+        cout << "Listing files in musicStore:\n";
 
-        for (const auto& entry : fs::recursive_directory_iterator(usbPath)) 
+        for (const auto& entry : fs::recursive_directory_iterator(musicStore)) 
         {
             cout << entry.path() << "\n";
         }

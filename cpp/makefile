@@ -1,7 +1,6 @@
 C = clang++ -std=c++20 -Wall -g 
 CH = clang++  -std=c++20 -c -x c++-system-header 
-EXEC = test
-ZIPNAME = test
+EXEC = musicManager
 
 INTERFACES = main.cpp
 IMPLEMENTIONS = 
@@ -17,6 +16,10 @@ clean:
 	rm -rf *.dSYM
 
 run:
+	./$(EXEC)
+
+runNew:
+	make
 	./$(EXEC)
 
 mem:

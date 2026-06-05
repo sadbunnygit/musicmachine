@@ -19,5 +19,5 @@ class Album
     Album(string title);
 };
 
-Album::Album(fs::path path) : path(path) {}
+Album::Album(fs::path path) : path(path), title(path.filename()) {}
 Album::Album(string title) : title(title), path("/Volumes/sadbunnymus/Music/"+title) {}

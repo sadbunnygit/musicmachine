@@ -24,6 +24,9 @@ int main(int argc, char* argv[])
     cout << "Insides" << endl;
     listFilesRecur(".");
 
+    fs::path path = "/Volumes/sadbunnymus/Music/abba";
+    cout << path.filename() << endl;
+
     removeAll("");
     copyInsides("/Volumes/sadbunnymus/Music/", "/Volumes/NO NAME/music/", "Doors Alive She Cried");
 }

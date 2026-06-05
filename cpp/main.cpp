@@ -9,6 +9,7 @@ namespace fs = std::filesystem;
 
 
 void listFiles(string dir);
+void listFilesRecur(string dir);
 bool confirm(const string& message);
 void removeAll(string dir);
 void copyInsides(string from, string to, string folder);
@@ -18,26 +19,51 @@ int main(int argc, char* argv[])
     string musicMachine = "/Volumes/NO NAME/music"; 
     string musicStore = "/Volumes/sadbunnymus"; 
 
-    listFiles(musicMachine);
+    cout << "Just album names" << endl;
+    listFiles(".");
+    cout << "Insides" << endl;
+    listFilesRecur(".");
 
     removeAll("");
     copyInsides("/Volumes/sadbunnymus/Music/", "/Volumes/NO NAME/music/", "Doors Alive She Cried");
 }
 
 
-void listFiles(string dir)
+void listFilesRecur(string dir)
 {
     try 
     {
         if (!fs::exists(dir)) 
         {
-            cout << "USB not found at: " << dir << endl;
+            cout << "Files not found at: " << dir << endl;
             return;
         }
 
         cout << "Listing files in "<< dir  << endl;
 
         for (const auto& entry : fs::recursive_directory_iterator(dir)) 
+        {
+            cout << entry.path() << endl;
+        }
+    } 
+    catch (fs::filesystem_error& e) 
+    {
+        cout << e.what() << '\n';
+    }
+}
+void listFiles(string dir)
+{
+    try 
+    {
+        if (!fs::exists(dir)) 
+        {
+            cout << "Files not found at: " << dir << endl;
+            return;
+        }
+
+        cout << "Listing files in "<< dir  << endl;
+
+        for (const auto& entry : fs::directory_iterator(dir)) 
         {
             cout << entry.path() << endl;
         }
@@ -95,3 +121,4 @@ void copyInsides(string from, string to, string folder)
     fs::copy(from+folder, to+folder);
     std::cout << "Copied" << endl;
 }
+

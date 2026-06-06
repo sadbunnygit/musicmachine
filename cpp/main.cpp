@@ -16,8 +16,8 @@ void copyInsides(string from, string to, string folder);
 
 int main(int argc, char* argv[])
 {
-    string musicMachine = "/Volumes/NO NAME/music"; 
-    string musicStore = "/Volumes/sadbunnymus"; 
+    fs::path musicMachine = "/Volumes/NO NAME/music"; 
+    fs::path musicStore = "/Volumes/sadbunnymus/Music"; 
 
     cout << "Just album names" << endl;
     listFiles(".");
@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
     cout << path.filename() << endl;
 
     removeAll("");
-    copyInsides("/Volumes/sadbunnymus/Music/", "/Volumes/NO NAME/music/", "Doors Alive She Cried");
+    copyInsides(musicStore, musicMachine, "Doors Alive She Cried");
 }
 
 

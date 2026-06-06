@@ -4,6 +4,8 @@
 #include <filesystem>
 #include <string>
 
+#include "musicLibrary.cpp"
+
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -19,16 +21,8 @@ int main(int argc, char* argv[])
     fs::path musicMachine = "/Volumes/NO NAME/music"; 
     fs::path musicStore = "/Volumes/sadbunnymus/Music"; 
 
-    cout << "Just album names" << endl;
-    listFiles(".");
-    cout << "Insides" << endl;
-    listFilesRecur(".");
-
-    fs::path path = "/Volumes/sadbunnymus/Music/abba";
-    cout << path.filename() << endl;
-
-    removeAll("");
-    copyInsides(musicStore, musicMachine, "Doors Alive She Cried");
+    cout << "testing music library constructor" << endl;
+    MusicLibrary mlib = MusicLibrary(musicStore);
 }
 
 

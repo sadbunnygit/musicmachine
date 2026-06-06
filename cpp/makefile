@@ -2,7 +2,7 @@ C = clang++ -std=c++20 -Wall -g
 CH = clang++  -std=c++20 -c -x c++-system-header 
 EXEC = musicManager
 
-INTERFACES = main.cpp
+INTERFACES = main.cpp 
 IMPLEMENTIONS = 
 
 $(EXEC): $(INTERFACES) $(IMPLEMENTIONS) 

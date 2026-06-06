@@ -23,6 +23,7 @@ int main(int argc, char* argv[])
 
     cout << "testing music library constructor" << endl;
     MusicLibrary mlib = MusicLibrary(musicStore);
+    mlib.printAlbums();
 }
 
 

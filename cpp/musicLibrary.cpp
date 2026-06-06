@@ -22,13 +22,14 @@ class MusicLibrary
         MusicLibrary(fs::path);
 
         // Member functions
-        vector<Album> getAlbums();
+        vector<Album> loadAlbums();
+        void printAlbums();
 };
 
 
-MusicLibrary::MusicLibrary(fs::path root) : root(root), albums(getAlbums()) {}
+MusicLibrary::MusicLibrary(fs::path root) : root(root), albums(loadAlbums()) {}
 
-vector<Album> MusicLibrary::getAlbums()
+vector<Album> MusicLibrary::loadAlbums()
 {
     vector<Album> a;
     try 
@@ -43,7 +44,7 @@ vector<Album> MusicLibrary::getAlbums()
 
         for (const auto& entry : fs::directory_iterator(root)) 
         {
-            cout << entry.path().filename() << endl;
+            //cout << entry.path().filename() << endl;
             a.emplace_back(Album(entry.path()));
         }
 
@@ -53,5 +54,13 @@ vector<Album> MusicLibrary::getAlbums()
     {
         cout << e.what() << '\n';
         return a;
+    }
+}
+
+void MusicLibrary::printAlbums()
+{
+    for (const auto& a : albums) 
+    {
+        cout << a << endl;
     }
 }

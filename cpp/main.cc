@@ -25,6 +25,10 @@ int main(int argc, char* argv[])
 
     cout << "testing music library constructor" << endl;
     MusicLibrary mlib = MusicLibrary("./test.db");
+
+    string fa = "fake album";
+    Album a = Album(fa);
+    mlib.addAlbum(a);
     //mlib.printAlbums();
 }
 

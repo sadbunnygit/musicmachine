@@ -17,10 +17,8 @@ class MusicLibrary
     const char* dir = "./test.db";
 
     public:
-        // c/d - tor
+        // ctor
         MusicLibrary(const char* dir);
-        ~MusicLibrary();
-
 
         void addAlbum(const Album& a);
         vector<Album> getAllAlbums();

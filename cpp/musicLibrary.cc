@@ -32,7 +32,8 @@ MusicLibrary::MusicLibrary(const string dir) : DB(nullptr), dir(dir)
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
         "title TEXT NOT NULL, "
         "artist TEXT, "
-        "path TEXT"
+        "path TEXT,"
+        "UNIQUE(title, artist)"
         ");";
 
 
@@ -65,7 +66,7 @@ void MusicLibrary::addAlbum(const Album& a)
 
     cout << "trying to add " << a << " into " << *this <<endl;
     string sql =
-        "INSERT INTO albums (title, artist, path) VALUES ('" 
+        "INSERT OR IGNORE INTO albums (title, artist, path) VALUES ('" 
         +
             a.title + "','" + a.artist + "','" + (a.path).string() + "'"
         + ");";

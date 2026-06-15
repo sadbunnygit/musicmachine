@@ -31,9 +31,8 @@ MusicLibrary::MusicLibrary(const char* dir) : DB(nullptr)
         "CREATE TABLE IF NOT EXISTS albums ("
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
         "title TEXT NOT NULL, "
-        "artist TEXT NOT NULL, "
-        "path TEXT, "
-        "year INTEGER"
+        "artist TEXT, "
+        "path TEXT"
         ");";
 
 
@@ -64,7 +63,7 @@ void MusicLibrary::addAlbum(const Album& a)
     char* messageError;
 
     string sql =
-        "INSERT INTO albums (title, artist, path, year) VALUES ('" 
+        "INSERT INTO albums (title, artist, path) VALUES ('" 
         +
             a.title + "','" + a.artist + "','" + (a.path).string() + "'"
         + ");";

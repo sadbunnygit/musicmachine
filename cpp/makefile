@@ -1,25 +1,29 @@
-C = clang++ -std=c++20 -Wall -g 
-CH = clang++  -std=c++20 -c -x c++-system-header 
+CXX = g++
+CXXFLAGS = -std=c++20 -Wall -g
+
 EXEC = musicManager
 
-INTERFACES = main.cpp 
-IMPLEMENTIONS = 
+OBJS = main.o musiclibrary.o album.o 
 
-$(EXEC): $(INTERFACES) $(IMPLEMENTIONS) 
-	$(C) $(INTERFACES) $(IMPLEMENTIONS) -o $(EXEC)
+$(EXEC): $(OBJS)
+	$(CXX) $(OBJS) -o $(EXEC)
+
+main.o: main.cc musiclibrary.o album.o
+	$(CXX) $(CXXFLAGS) -c main.cc
+
+musiclibrary.o: musiclibrary.cc album.o
+	$(CXX) $(CXXFLAGS) -c musiclibrary.cc
+
+album.o: album.cc
+	$(CXX) $(CXXFLAGS) -c album.cc
 
 
-.PHONY: clean run mem debug 
+.PHONY: clean run mem debug
 
-clean: 
-	rm -f *.o $(EXEC)
-	rm -rf *.dSYM
+clean:
+	rm -f *.o $(EXEC) gcm.cache
 
-run:
-	./$(EXEC)
-
-runNew:
-	make
+run: $(EXEC)
 	./$(EXEC)
 
 mem:

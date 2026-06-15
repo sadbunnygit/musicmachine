@@ -4,7 +4,9 @@
 #include <filesystem>
 #include <string>
 
-#include "musicLibrary.cpp"
+#include "musicLibrary.h"
+#include "album.h"
+
 
 using namespace std;
 namespace fs = std::filesystem;

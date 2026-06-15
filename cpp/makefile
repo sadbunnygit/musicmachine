@@ -23,7 +23,11 @@ album.o: album.cc
 clean:
 	rm -f *.o $(EXEC) gcm.cache
 
-run: $(EXEC)
+run: 
+	./$(EXEC)
+
+runnew: 
+	make
 	./$(EXEC)
 
 mem:

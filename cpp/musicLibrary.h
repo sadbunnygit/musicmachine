@@ -14,14 +14,15 @@ namespace fs = std::filesystem;
 class MusicLibrary
 {
     sqlite3* DB;
-    const char* dir = "./test.db";
+    const string dir;
 
     public:
         // ctor
-        MusicLibrary(const char* dir);
+        MusicLibrary(const string dir);
 
         void addAlbum(const Album& a);
         vector<Album> getAllAlbums();
         vector<Album> findByArtist(const string& artist);
-};
 
+    friend std::ostream & operator<<( std::ostream & out, const MusicLibrary & ml );
+};

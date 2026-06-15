@@ -16,12 +16,12 @@ using namespace std;
 namespace fs = std::filesystem;
 
 
-MusicLibrary::MusicLibrary(const char* dir) : DB(nullptr)
+MusicLibrary::MusicLibrary(const string dir) : DB(nullptr), dir(dir)
 {
 
     //createDB
     int exit = 0;
-	exit = sqlite3_open(dir, &DB);
+	exit = sqlite3_open(dir.c_str(), &DB);
 	sqlite3_close(DB);
 
     //createTable
@@ -39,7 +39,7 @@ MusicLibrary::MusicLibrary(const char* dir) : DB(nullptr)
     try
 	{
 		int exitTB = 0;
-		exitTB = sqlite3_open(dir, &DB);
+		exitTB = sqlite3_open(dir.c_str(), &DB);
 		/* An open database, SQL to be evaluated, Callback function, 1st argument to callback, Error msg written here */
 		exitTB = sqlite3_exec(DB, sql, NULL, 0, &messageError);
 		if (exitTB != SQLITE_OK) 
@@ -62,6 +62,7 @@ void MusicLibrary::addAlbum(const Album& a)
 {
     char* messageError;
 
+    cout << "trying to add " << a << " into " << *this <<endl;
     string sql =
         "INSERT INTO albums (title, artist, path) VALUES ('" 
         +
@@ -70,7 +71,7 @@ void MusicLibrary::addAlbum(const Album& a)
 
     sqlite3_exec(DB, sql.c_str(), nullptr, nullptr, nullptr);
 
-    int exit = sqlite3_open(dir, &DB);
+    int exit = sqlite3_open(dir.c_str(), &DB);
 
 	/* An open database, SQL to be evaluated, Callback function, 1st argument to callback, Error msg written here */
 	exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
@@ -82,3 +83,10 @@ void MusicLibrary::addAlbum(const Album& a)
 	else
 		cout << "Records inserted Successfully!" << endl;
 }
+
+// non-member operator overload
+std::ostream & operator<<( std::ostream & out, const MusicLibrary & ml ) 
+{
+    out << "Dir: " << ml.dir;
+    return out;
+} // operator<<

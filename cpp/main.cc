@@ -26,9 +26,11 @@ int main(int argc, char* argv[])
     string dbloc = "./database.db";
     MusicLibrary mlib = MusicLibrary(dbloc);
     cout << mlib << endl;
-    string fa = "fake album 2";
+    string fa = "4 of fake album - should be 4 will this cause 5?? ";
     Album a = Album(fa);
     cout << a << endl;
+    mlib.addAlbum(a);
+    mlib.addAlbum(a);
     mlib.addAlbum(a);
     mlib.addAlbum(a);
     //mlib.printAlbums();

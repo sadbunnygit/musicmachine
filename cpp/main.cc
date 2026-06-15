@@ -28,6 +28,7 @@ int main(int argc, char* argv[])
 
     string fa = "fake album";
     Album a = Album(fa);
+    cout << a << endl;
     mlib.addAlbum(a);
     //mlib.printAlbums();
 }

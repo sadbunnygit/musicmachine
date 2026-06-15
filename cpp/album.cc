@@ -10,8 +10,8 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-Album::Album(fs::path path) : path(path), title(path.filename()) {}
-Album::Album(string title) : path("/Volumes/sadbunnymus/Music/"+title), title(title) {}
+Album::Album(fs::path path) : path(path), title(path.filename()), artist("unknown") {}
+Album::Album(string title) : path("/Volumes/sadbunnymus/Music/"+title), title(title), artist("unknown") {}
 
 
 // non-member operator overload

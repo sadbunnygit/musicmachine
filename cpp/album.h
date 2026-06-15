@@ -12,8 +12,8 @@ class Album
 {
     public:
         const fs::path path;
-        string artist;
         string title;
+        string artist;
         int songCount;
 
         // Different CTORs

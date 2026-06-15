@@ -60,6 +60,7 @@ MusicLibrary::MusicLibrary(const string dir) : DB(nullptr), dir(dir)
 
 void MusicLibrary::addAlbum(const Album& a)
 {
+    cout << "ADD ALBUM CALLED" << endl;
     char* messageError;
 
     cout << "trying to add " << a << " into " << *this <<endl;
@@ -69,7 +70,6 @@ void MusicLibrary::addAlbum(const Album& a)
             a.title + "','" + a.artist + "','" + (a.path).string() + "'"
         + ");";
 
-    sqlite3_exec(DB, sql.c_str(), nullptr, nullptr, nullptr);
 
     int exit = sqlite3_open(dir.c_str(), &DB);
 

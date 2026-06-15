@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
     string dbloc = "./database.db";
     MusicLibrary mlib = MusicLibrary(dbloc);
     cout << mlib << endl;
-    string fa = "fake album";
+    string fa = "fake album 2";
     Album a = Album(fa);
     cout << a << endl;
     mlib.addAlbum(a);

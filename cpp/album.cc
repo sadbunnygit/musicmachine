@@ -2,6 +2,8 @@
 #include <iostream>
 #include <filesystem>
 #include <string>
+#include <sqlite3.h>
+
 #include "album.h"
 
 

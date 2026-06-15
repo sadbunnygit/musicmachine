@@ -6,7 +6,7 @@ EXEC = musicManager
 OBJS = main.o musiclibrary.o album.o 
 
 $(EXEC): $(OBJS)
-	$(CXX) $(OBJS) -o $(EXEC)
+	$(CXX) $(OBJS) -o $(EXEC) -lsqlite3
 
 main.o: main.cc musiclibrary.o album.o
 	$(CXX) $(CXXFLAGS) -c main.cc

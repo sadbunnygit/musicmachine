@@ -1,5 +1,7 @@
 
 
+// sql stuff inspired and from : https://github.com/RobertoChapa/C-SQLite_Demo
+
 #include <iostream>
 #include <filesystem>
 #include <string>
@@ -14,40 +16,70 @@ using namespace std;
 namespace fs = std::filesystem;
 
 
-MusicLibrary::MusicLibrary(fs::path root) : root(root), albums(loadAlbums()) {}
-
-vector<Album> MusicLibrary::loadAlbums()
+MusicLibrary::MusicLibrary(const char* dir) : DB(nullptr)
 {
-    vector<Album> a;
-    try 
-    {
-        if (!fs::exists(root)) 
+
+    //createDB
+    int exit = 0;
+	exit = sqlite3_open(dir, &DB);
+	sqlite3_close(DB);
+
+    //createTable
+    char* messageError;
+
+    const char* sql =
+        "CREATE TABLE IF NOT EXISTS albums ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "title TEXT NOT NULL, "
+        "artist TEXT NOT NULL, "
+        "path TEXT, "
+        "year INTEGER"
+        ");";
+
+
+    try
+	{
+		int exitTB = 0;
+		exitTB = sqlite3_open(dir, &DB);
+		/* An open database, SQL to be evaluated, Callback function, 1st argument to callback, Error msg written here */
+		exitTB = sqlite3_exec(DB, sql, NULL, 0, &messageError);
+		if (exitTB != SQLITE_OK) 
         {
-            cout << "Files not found at: " << root << endl;
-            return a;
-        }
-
-        cout << "Listing Albums in "<< root  << endl;
-
-        for (const auto& entry : fs::directory_iterator(root)) 
-        {
-            //cout << entry.path().filename() << endl;
-            a.emplace_back(Album(entry.path()));
-        }
-
-        return a;
-    } 
-    catch (fs::filesystem_error& e) 
-    {
-        cout << e.what() << '\n';
-        return a;
-    }
+			cerr << "Error in createTable function." << endl;
+			sqlite3_free(messageError);
+		}
+		else
+			cout << "Table created Successfully" << endl;
+		sqlite3_close(DB);
+	}
+	catch (const exception& e)
+	{
+		cerr << e.what();
+	}
 }
 
-void MusicLibrary::printAlbums()
+
+void MusicLibrary::addAlbum(const Album& a)
 {
-    for (const auto& a : albums) 
+    char* messageError;
+
+    string sql =
+        "INSERT INTO albums (title, artist, path, year) VALUES ('" 
+        +
+            a.title + "','" + a.artist + "','" + (a.path).string() + "'"
+        + ");";
+
+    sqlite3_exec(DB, sql.c_str(), nullptr, nullptr, nullptr);
+
+    int exit = sqlite3_open(dir, &DB);
+
+	/* An open database, SQL to be evaluated, Callback function, 1st argument to callback, Error msg written here */
+	exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
+	if (exit != SQLITE_OK) 
     {
-        cout << a << endl;
-    }
+		cerr << "Error in insertData function." << endl;
+		sqlite3_free(messageError);
+	}
+	else
+		cout << "Records inserted Successfully!" << endl;
 }

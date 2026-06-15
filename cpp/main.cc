@@ -24,8 +24,8 @@ int main(int argc, char* argv[])
     fs::path musicStore = "/Volumes/sadbunnymus/Music"; 
 
     cout << "testing music library constructor" << endl;
-    MusicLibrary mlib = MusicLibrary(musicStore);
-    mlib.printAlbums();
+    MusicLibrary mlib = MusicLibrary("./test.db");
+    //mlib.printAlbums();
 }
 
 

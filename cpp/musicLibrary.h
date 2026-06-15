@@ -13,17 +13,17 @@ namespace fs = std::filesystem;
 
 class MusicLibrary
 {
+    sqlite3* DB;
+    const char* dir = "./test.db";
+
     public:
-        fs::path root;
-        vector<Album> albums;
+        // c/d - tor
+        MusicLibrary(const char* dir);
+        ~MusicLibrary();
 
-        
 
-        // Different CTORs
-        MusicLibrary(fs::path);
-
-        // Member functions
-        vector<Album> loadAlbums();
-        void printAlbums();
+        void addAlbum(const Album& a);
+        vector<Album> getAllAlbums();
+        vector<Album> findByArtist(const string& artist);
 };
 

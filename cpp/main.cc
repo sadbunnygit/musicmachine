@@ -26,14 +26,10 @@ int main(int argc, char* argv[])
     string dbloc = "./database.db";
     MusicLibrary mlib = MusicLibrary(dbloc);
     cout << mlib << endl;
-    string fa = "fake album";
-    Album a = Album(fa);
-    cout << a << endl;
-    mlib.addAlbum(a);
-    mlib.addAlbum(a);
-    mlib.addAlbum(a);
+
     mlib.loadAlbums(musicStore);
-    //mlib.printAlbums();
+
+    cout << endl;
 }
 
 

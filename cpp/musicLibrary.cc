@@ -61,10 +61,10 @@ MusicLibrary::MusicLibrary(const string dbFile) : DB(nullptr), dbFile(dbFile)
 
 void MusicLibrary::addAlbum(const Album& a)
 {
-    cout << "ADD ALBUM CALLED" << endl;
+	cerr << endl;
     char* messageError;
 
-    cout << "trying to add " << a << " into " << *this <<endl;
+    cerr << "Trying to add " << a << " into " << *this <<endl;
     string sql =
         "INSERT OR IGNORE INTO albums (title, artist, path) VALUES ('" 
         +
@@ -82,7 +82,7 @@ void MusicLibrary::addAlbum(const Album& a)
 		sqlite3_free(messageError);
 	}
 	else
-		cout << "Records inserted Successfully!" << endl;
+		cerr << "\e[0;32m" << "Records inserted Successfully!" << "\e[0m" << endl;
 }
 void MusicLibrary::loadAlbums(fs::path loc)
 {
@@ -91,21 +91,18 @@ void MusicLibrary::loadAlbums(fs::path loc)
     {
         if (!fs::exists(loc)) 
         {
-            cout << "\e[0;31m" << "Files not found at: " << loc << "\e[0m" << endl;
+            cerr << "\e[0;31m" << "Files not found at: " << loc << "\e[0m" << endl;
             return;
         }
 
-        cout << "Listing Albums in "<< loc  << endl;
-
         for (const auto& entry : fs::directory_iterator(loc)) 
         {
-            //cout << entry.path().filename() << endl;
-            addAlbum(Album(entry.path())); // prolly wont work bc rreference
+            addAlbum(Album(entry.path())); 
         }
     } 
     catch (fs::filesystem_error& e) 
     {
-        cout << "\e[0;31m" << e.what() << "\e[0m" <<endl;
+        cerr << "\e[0;31m" << e.what() << "\e[0m" <<endl;
     }
 }
 

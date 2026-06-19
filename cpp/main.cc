@@ -32,6 +32,7 @@ int main(int argc, char* argv[])
     mlib.addAlbum(a);
     mlib.addAlbum(a);
     mlib.addAlbum(a);
+    mlib.loadAlbums(musicStore);
     //mlib.printAlbums();
 }
 

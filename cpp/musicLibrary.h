@@ -14,13 +14,14 @@ namespace fs = std::filesystem;
 class MusicLibrary
 {
     sqlite3* DB;
-    const string dir;
+    const string dbFile;
 
     public:
         // ctor
-        MusicLibrary(const string dir);
+        MusicLibrary(const string dbFile);
 
         void addAlbum(const Album& a);
+        void loadAlbums(fs::path loc);
         vector<Album> getAllAlbums();
         vector<Album> findByArtist(const string& artist);
 

@@ -107,8 +107,24 @@ void MusicLibrary::loadAlbums(fs::path loc)
         cerr << "\e[0;31m" << e.what() << "\e[0m" <<endl;
     }
 }
+void MusicLibrary::updateData()
+{
+	char* errMsg;
 
-int MusicLibrary::selectData()
+	string sql("UPDATE GRADES SET GRADE = 'A' WHERE LNAME = 'Cooper'"); // this obv wont work
+
+	int rc = sqlite3_open(dbFile.c_str(), &DB);
+	/* An open database, SQL to be evaluated, Callback function, 1st argument to callback, Error msg written here */
+	rc = sqlite3_exec(DB, sql.c_str(), NULL, 0, &errMsg);
+	if (rc != SQLITE_OK) 
+    {
+		cerr << "\e[0;31m" << "Error in updateData function: " << errMsg << "\e[0m" <<endl;
+		sqlite3_free(errMsg);
+	}
+	else
+		cerr << "\e[0;32m" << "Records updated Successfully!" << endl;
+}
+void MusicLibrary::selectData()
 {
 	char* errMsg;
 
@@ -120,13 +136,11 @@ int MusicLibrary::selectData()
 
 	if (rc != SQLITE_OK) 
     {
-		cerr << "Error in selectData function." << endl;
+		cerr << "\e[0;31m" "Error in selectData function: " << errMsg << "\e[0m" <<endl;
 		sqlite3_free(errMsg);
 	}
 	else
-		cout << "Records selected Successfully!" << endl;
-
-	return 0;
+		cerr << "\e[0;32m"  << "Records selected Successfully!" << "\e[0m" <<endl;
 }
 // retrieve contents of database used by selectData()
 /* argc: holds the number of results, argv: holds each value in array, azColName: holds each column returned in array, */

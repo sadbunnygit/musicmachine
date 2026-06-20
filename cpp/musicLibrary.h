@@ -26,7 +26,8 @@ class MusicLibrary
         void loadAlbums(fs::path loc);
         vector<Album> getAllAlbums();
 
-        int selectData();
+        void updateData();
+        void selectData();
         static int callback(void* NotUsed, int argc, char** argv, char** azColName);
 
     friend std::ostream & operator<<( std::ostream & out, const MusicLibrary & ml );

@@ -18,7 +18,7 @@ class Album
         string title;
         string artist;
         int sizeMB;
-        int downloadCount;
+        int downloadCount = 0;
         timepoint lastDownloaded;
         timepoint lastUploaded;
 

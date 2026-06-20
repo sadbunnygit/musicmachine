@@ -26,8 +26,6 @@ class MusicLibrary
         void loadAlbums(fs::path loc);
         vector<Album> getAllAlbums();
 
-        static string toSQLdateTime(const std::chrono::system_clock::time_point tp);
-
         int selectData();
         static int callback(void* NotUsed, int argc, char** argv, char** azColName);
 

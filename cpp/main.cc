@@ -27,6 +27,7 @@ int main(int argc, char* argv[])
     MusicLibrary mlib = MusicLibrary(dbloc);
     cout << mlib << endl;
 
+    mlib.loadAlbums(musicMachine);
     mlib.selectData();
 
     cout << endl;

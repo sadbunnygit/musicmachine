@@ -15,10 +15,6 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-static string toSQLdateTime(const std::chrono::system_clock::time_point tp)
-{
-    return "placeholder";
-}
 
 MusicLibrary::MusicLibrary(const string dbFile) : DB(nullptr), dbFile(dbFile)
 {
@@ -72,10 +68,9 @@ void MusicLibrary::addAlbum(const Album& a)
         "VALUES ('"
         + a.title + "','"
         + a.artist + "','"
-        + a.path.string() + "',"
-        + to_string(a.sizeMB) + "',"
-        + to_string(a.downloadCount) + ",'"
-        //+ toSqlDateTime(a.lastDownloaded) + "');"
+        + a.path.string() + "','"
+        + to_string(a.sizeMB) + "','"
+        + to_string(a.downloadCount) + "', 'placeholder');"
         ;
 
     int rc = sqlite3_open(dbFile.c_str(), &DB);
@@ -83,7 +78,7 @@ void MusicLibrary::addAlbum(const Album& a)
 	rc = sqlite3_exec(DB, sql.c_str(), NULL, 0, &errMsg);
 	if (rc != SQLITE_OK) 
     {
-		cerr << "\e[0;31m" << "Error in addAlbum function:" << errMsg << "\e[0m" << endl;
+		cerr << "\e[0;31m" << "Error in addAlbum function: " << errMsg << "\e[0m" << endl;
 		sqlite3_free(errMsg);
 	}
 	else
@@ -101,6 +96,9 @@ void MusicLibrary::loadAlbums(fs::path loc)
 
         for (const auto& entry : fs::directory_iterator(loc)) 
         {
+            auto name = entry.path().filename().string();
+            if (name[0]=='.' && name[1]=='_')
+                continue;
             addAlbum(Album(entry.path())); 
         }
     } 

@@ -19,13 +19,17 @@ class MusicLibrary
     public:
         // ctor
         MusicLibrary(const string dbFile);
+        // dtor
+        ~MusicLibrary();
 
         void addAlbum(const Album& a);
         void loadAlbums(fs::path loc);
         vector<Album> getAllAlbums();
-        vector<Album> findByArtist(const string& artist);
 
         static string toSQLdateTime(const std::chrono::system_clock::time_point tp);
+
+        int selectData();
+        static int callback(void* NotUsed, int argc, char** argv, char** azColName);
 
     friend std::ostream & operator<<( std::ostream & out, const MusicLibrary & ml );
 };

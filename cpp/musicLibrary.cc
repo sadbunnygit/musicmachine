@@ -15,85 +15,82 @@
 using namespace std;
 namespace fs = std::filesystem;
 
+static string toSQLdateTime(const std::chrono::system_clock::time_point tp)
+{
+    return "placeholder";
+}
 
 MusicLibrary::MusicLibrary(const string dbFile) : DB(nullptr), dbFile(dbFile)
 {
-
-    //createDB
-    int exit = sqlite3_open(dbFile.c_str(), &DB);
-	sqlite3_close(DB);
-
-    //createTable
-    char* messageError;
+    int rc = sqlite3_open(dbFile.c_str(), &DB); // rc meaning return code
+    if (rc != SQLITE_OK)
+    {
+        cerr << "\e[0;31m" <<"Cannot open DB: " << sqlite3_errmsg(DB)  << "\e[0m" << endl;
+        sqlite3_close(DB);
+        DB = nullptr;
+        return;
+    }
 
     const char* sql =
-        "CREATE TABLE IF NOT EXISTS albums ("
+        "CREATE TABLE IF NOT EXISTS Albums("
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
         "title TEXT NOT NULL, "
         "artist TEXT, "
-        "path TEXT, "
-        "song_count INTEGER, "
+        "path TEXT UNIQUE NOT NULL, "
+        "size_mb INTEGER NOT NULL, "
         "download_count INTEGER DEFAULT 0, "
-        "last_downloaded TEXT, "
-        "last_uploaded TEXT, "
-        "UNIQUE(title, artist)"
+        "last_downloaded TEXT"
         ");";
 
-
-    try
-	{
-		int exitTB = 0;
-		exitTB = sqlite3_open(dbFile.c_str(), &DB);
-		/* An open database, SQL to be evaluated, Callback function, 1st argument to callback, Error msg written here */
-		exitTB = sqlite3_exec(DB, sql, NULL, 0, &messageError);
-		if (exitTB != SQLITE_OK) 
-        {
-			cerr << "Error in createTable function." << endl;
-			sqlite3_free(messageError);
-		}
-		else
-			cout << "Table created Successfully" << endl;
-		sqlite3_close(DB);
-	}
-	catch (const exception& e)
-	{
-		cerr << e.what();
-	}
+    char* errMsg = nullptr;
+    rc = sqlite3_exec(DB, sql, NULL, 0, &errMsg);
+    if (rc != SQLITE_OK)
+    {
+        std::cerr << "\e[0;31m" << "Table creation failed: " << errMsg  << "\e[0m" << std::endl;
+        sqlite3_free(errMsg);
+    }
+}
+MusicLibrary::~MusicLibrary()
+{
+    if (DB)
+    {
+        sqlite3_close(DB);
+        DB = nullptr;
+    }
 }
 
 
 void MusicLibrary::addAlbum(const Album& a)
 {
 	cerr << endl;
-    char* messageError;
+    char* errMsg;
 
     cerr << "Trying to add " << a << " into " << *this <<endl;
     string sql =
-        "INSERT OR IGNORE INTO albums "
-        "(title, artist, path, download_count, last_downloaded, last_uploaded) "
+        "INSERT OR IGNORE INTO Albums "
+        "(title, artist, path, size_mb, download_count, last_downloaded) "
         "VALUES ('"
         + a.title + "','"
         + a.artist + "','"
         + a.path.string() + "',"
-        + std::to_string(a.downloadCount) + ",'"
-        + toSqlDateTime(a.lastDownloaded) + "','"
-        + toSqlDateTime(a.lastUploaded) + "');";
+        + to_string(a.sizeMB) + "',"
+        + to_string(a.downloadCount) + ",'"
+        //+ toSqlDateTime(a.lastDownloaded) + "');"
+        ;
 
-    int exit = sqlite3_open(dbFile.c_str(), &DB);
-
+    int rc = sqlite3_open(dbFile.c_str(), &DB);
 	/* An open database, SQL to be evaluated, Callback function, 1st argument to callback, Error msg written here */
-	exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
-	if (exit != SQLITE_OK) 
+	rc = sqlite3_exec(DB, sql.c_str(), NULL, 0, &errMsg);
+	if (rc != SQLITE_OK) 
     {
-		cerr << "\e[0;31m" << "Error in insertData function. :" << messageError << "\e[0m" << endl;
-		sqlite3_free(messageError);
+		cerr << "\e[0;31m" << "Error in addAlbum function:" << errMsg << "\e[0m" << endl;
+		sqlite3_free(errMsg);
 	}
 	else
-		cerr << "\e[0;32m" << "Records inserted Successfully!" << "\e[0m" << endl;
+		cerr << "\e[0;32m" << "Album inserted Successfully!" << "\e[0m" << endl;
 }
 void MusicLibrary::loadAlbums(fs::path loc)
 {
-    vector<Album> a;
     try 
     {
         if (!fs::exists(loc)) 
@@ -113,11 +110,40 @@ void MusicLibrary::loadAlbums(fs::path loc)
     }
 }
 
-static string toSQLdateTime(const std::chrono::system_clock::time_point tp)
+int MusicLibrary::selectData()
 {
-    
-}
+	char* errMsg;
 
+	string sql = "SELECT * FROM Albums;";
+
+	int rc = sqlite3_open(dbFile.c_str(), &DB);
+	/* An open database, SQL to be evaluated, Callback function, 1st argument to callback, Error msg written here*/
+	rc = sqlite3_exec(DB, sql.c_str(), callback, NULL, &errMsg);
+
+	if (rc != SQLITE_OK) 
+    {
+		cerr << "Error in selectData function." << endl;
+		sqlite3_free(errMsg);
+	}
+	else
+		cout << "Records selected Successfully!" << endl;
+
+	return 0;
+}
+// retrieve contents of database used by selectData()
+/* argc: holds the number of results, argv: holds each value in array, azColName: holds each column returned in array, */
+int MusicLibrary::callback(void* NotUsed, int argc, char** argv, char** azColName)
+{
+	for (int i = 0; i < argc; i++) 
+    {
+		// column name and value
+		cout << azColName[i] << ": " << argv[i] << endl;
+	}
+
+	cout << endl;
+
+	return 0;
+}
 
 // non-member operator overload
 std::ostream & operator<<( std::ostream & out, const MusicLibrary & ml ) 

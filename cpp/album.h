@@ -17,6 +17,7 @@ class Album
         const fs::path path;
         string title;
         string artist;
+        int sizeMB;
         int downloadCount;
         timepoint lastDownloaded;
         timepoint lastUploaded;

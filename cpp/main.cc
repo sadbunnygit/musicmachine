@@ -4,7 +4,9 @@
 #include <filesystem>
 #include <string>
 
-#include "musicLibrary.cpp"
+#include "musicLibrary.h"
+#include "album.h"
+
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -20,10 +22,15 @@ int main(int argc, char* argv[])
 {
     fs::path musicMachine = "/Volumes/NO NAME/music"; 
     fs::path musicStore = "/Volumes/sadbunnymus/Music"; 
-
     cout << "testing music library constructor" << endl;
-    MusicLibrary mlib = MusicLibrary(musicStore);
-    mlib.printAlbums();
+    string dbloc = "./myMusic.db";
+    MusicLibrary mlib = MusicLibrary(dbloc);
+    cout << mlib << endl;
+
+    mlib.loadAlbums(musicMachine);
+    mlib.selectData();
+
+    cout << endl;
 }
 
 

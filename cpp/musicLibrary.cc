@@ -20,8 +20,7 @@ MusicLibrary::MusicLibrary(const string dbFile) : DB(nullptr), dbFile(dbFile)
 {
 
     //createDB
-    int exit = 0;
-	exit = sqlite3_open(dbFile.c_str(), &DB);
+    int exit = sqlite3_open(dbFile.c_str(), &DB);
 	sqlite3_close(DB);
 
     //createTable
@@ -32,7 +31,11 @@ MusicLibrary::MusicLibrary(const string dbFile) : DB(nullptr), dbFile(dbFile)
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
         "title TEXT NOT NULL, "
         "artist TEXT, "
-        "path TEXT,"
+        "path TEXT, "
+        "song_count INTEGER, "
+        "download_count INTEGER DEFAULT 0, "
+        "last_downloaded TEXT, "
+        "last_uploaded TEXT, "
         "UNIQUE(title, artist)"
         ");";
 
@@ -66,11 +69,15 @@ void MusicLibrary::addAlbum(const Album& a)
 
     cerr << "Trying to add " << a << " into " << *this <<endl;
     string sql =
-        "INSERT OR IGNORE INTO albums (title, artist, path) VALUES ('" 
-        +
-            a.title + "','" + a.artist + "','" + (a.path).string() + "'"
-        + ");";
-
+        "INSERT OR IGNORE INTO albums "
+        "(title, artist, path, download_count, last_downloaded, last_uploaded) "
+        "VALUES ('"
+        + a.title + "','"
+        + a.artist + "','"
+        + a.path.string() + "',"
+        + std::to_string(a.downloadCount) + ",'"
+        + toSqlDateTime(a.lastDownloaded) + "','"
+        + toSqlDateTime(a.lastUploaded) + "');";
 
     int exit = sqlite3_open(dbFile.c_str(), &DB);
 
@@ -104,6 +111,11 @@ void MusicLibrary::loadAlbums(fs::path loc)
     {
         cerr << "\e[0;31m" << e.what() << "\e[0m" <<endl;
     }
+}
+
+static string toSQLdateTime(const std::chrono::system_clock::time_point tp)
+{
+    
 }
 
 

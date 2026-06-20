@@ -25,5 +25,7 @@ class MusicLibrary
         vector<Album> getAllAlbums();
         vector<Album> findByArtist(const string& artist);
 
+        static string toSQLdateTime(const std::chrono::system_clock::time_point tp);
+
     friend std::ostream & operator<<( std::ostream & out, const MusicLibrary & ml );
 };

@@ -3,9 +3,12 @@
 #include <iostream>
 #include <filesystem>
 #include <string>
+#include <chrono>
+
 
 using namespace std;
 namespace fs = std::filesystem;
+using timepoint = std::chrono::system_clock::time_point;
 
 
 class Album
@@ -14,7 +17,9 @@ class Album
         const fs::path path;
         string title;
         string artist;
-        int songCount;
+        int downloadCount;
+        timepoint lastDownloaded;
+        timepoint lastUploaded;
 
         // Different CTORs
         Album(fs::path);

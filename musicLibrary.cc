@@ -58,7 +58,6 @@ MusicLibrary::~MusicLibrary()
 
 void MusicLibrary::addAlbum(const Album& a)
 {
-	cerr << endl;
     char* errMsg;
 
     cerr << "Trying to add " << a << " into " << *this <<endl;
@@ -86,6 +85,7 @@ void MusicLibrary::addAlbum(const Album& a)
 }
 void MusicLibrary::loadAlbums(fs::path loc)
 {
+    cout << "--- LOADING ALBUMS FROM " << loc << " START ---" <<endl;
     try 
     {
         if (!fs::exists(loc)) 
@@ -106,6 +106,7 @@ void MusicLibrary::loadAlbums(fs::path loc)
     {
         cerr << "\e[0;31m" << e.what() << "\e[0m" <<endl;
     }
+    cout << "--- LOADED ALBUMS FROM " << loc << " END ---" <<endl;
 }
 void MusicLibrary::updateData()
 {

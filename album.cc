@@ -17,11 +17,10 @@ namespace fs = std::filesystem;
 // int sizeMB;
 // int downloadCount;
 // timepoint lastDownloaded;
-// timepoint lastUploaded;
 
 Album::Album(fs::path path) : path(path), title(path.filename()), artist("unknown") 
 {
-    cout << "path ctor called" << endl;
+    cout << "Album ctor (path version) called: ";
     uintmax_t totalSize = 0;
 
     for (const auto& entry : fs::recursive_directory_iterator(path)) 
@@ -46,6 +45,8 @@ Album::Album(string title) : path("/Volumes/sadbunnymus/Music/"+title), title(ti
 // non-member operator overload
 std::ostream & operator<<( std::ostream & out, const Album & a ) 
 {
-    out << a.title << " - " << a.artist << ", path: " << a.path << ", mb = " << a.sizeMB;
+    out << a.title << " - " << a.artist 
+        << ", path: " << a.path << ", mb = " << a.sizeMB 
+        << ", download count: " << a.downloadCount << ", last_download: "; //<< a.lastDownloaded
     return out;
 } // operator<<

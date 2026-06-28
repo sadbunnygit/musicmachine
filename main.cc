@@ -23,11 +23,16 @@ int main(int argc, char* argv[])
     fs::path musicMachine = "/Volumes/NO NAME/music"; 
     fs::path musicStore = "/Volumes/sadbunnymus/Music"; 
     cout << "testing music library constructor" << endl;
-    string dbloc = "./myMusic.db";
-    MusicLibrary mlib = MusicLibrary(dbloc);
-    cout << mlib << endl;
-    if (confirm("list the stuff in the database"))
-        mlib.selectData();
+    string storeDB = "./musicStore.db";
+    string playDB = "./musicPlayer.db";
+    MusicLibrary store = MusicLibrary(storeDB);
+    MusicLibrary play = MusicLibrary(playDB);
+    cout << store << endl;
+    cout << play << endl;
+    if (confirm("load " + musicStore.string() + " into its database? "))
+        store.loadAlbums(musicStore);
+    if (confirm("load " + musicMachine.string() + " into its database? "))
+        play.loadAlbums(musicMachine);
     cout << endl;
 }
 

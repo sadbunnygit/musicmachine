@@ -20,7 +20,6 @@ class Album
         int sizeMB;
         int downloadCount = 0;
         timepoint lastDownloaded;
-        timepoint lastUploaded;
 
         // Different CTORs
         Album(fs::path);

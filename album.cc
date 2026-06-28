@@ -16,7 +16,7 @@ namespace fs = std::filesystem;
 // string artist;
 // int sizeMB;
 // int downloadCount;
-// timepoint lastDownloaded;
+// string lastDownloaded;
 
 Album::Album(fs::path path) : path(path), title(path.filename()), artist("unknown") 
 {
@@ -40,6 +40,10 @@ Album::Album(fs::path path) : path(path), title(path.filename()), artist("unknow
     cout << *this << endl;
 }
 Album::Album(string title) : path("/Volumes/sadbunnymus/Music/"+title), title(title), artist("unknown") {}
+Album::Album(fs::path p, string t, string a, int s, int dc, string ld) : path(p), title(t), artist(a), sizeMB(s), downloadCount(dc), lastDownloaded(ld) 
+{
+    cout << "Album ctor (full parameters version - prolly from database info) called: " << *this << endl;
+}
 
 
 // non-member operator overload
@@ -47,6 +51,8 @@ std::ostream & operator<<( std::ostream & out, const Album & a )
 {
     out << a.title << " - " << a.artist 
         << ", path: " << a.path << ", mb = " << a.sizeMB 
-        << ", download count: " << a.downloadCount << ", last_download: "; //<< a.lastDownloaded
+        << ", download count: " << a.downloadCount << ", last_download: " << a.lastDownloaded;
     return out;
 } // operator<<
+
+

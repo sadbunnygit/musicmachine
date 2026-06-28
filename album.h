@@ -8,7 +8,6 @@
 
 using namespace std;
 namespace fs = std::filesystem;
-using timepoint = std::chrono::system_clock::time_point;
 
 
 class Album
@@ -19,11 +18,12 @@ class Album
         string artist;
         int sizeMB;
         int downloadCount = 0;
-        timepoint lastDownloaded;
+        string lastDownloaded; // using string to represent date bc easier w/ sql stuff i think
 
         // Different CTORs
         Album(fs::path);
         Album(string title);
+        Album(fs::path path, string title, string artist, int sizeMB, int downloadCount, string lastDownloaded);
 };
 
 // Non - member functions

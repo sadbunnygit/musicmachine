@@ -69,7 +69,8 @@ void MusicLibrary::addAlbum(const Album& a)
         + a.artist + "','"
         + a.path.string() + "','"
         + to_string(a.sizeMB) + "','"
-        + to_string(a.downloadCount) + "', 'placeholder');"
+        + to_string(a.downloadCount) + "','" 
+        + a.lastDownloaded + ");"
         ;
 
     int rc = sqlite3_open(dbFile.c_str(), &DB);

@@ -3,6 +3,8 @@
 #include <iostream>
 #include <filesystem>
 #include <string>
+#include <chrono>
+#include <format>
 
 #include "musicLibrary.h"
 #include "album.h"
@@ -17,9 +19,26 @@ void listFilesRecur(string dir);
 bool confirm(const string& message);
 void removeAll(string dir);
 void copyInsides(string from, string to, string folder);
+void loadUSB(MusicLibrary ml, fs::path loc);
+
+
 
 int main(int argc, char* argv[])
 {
+    cout << "\n\n ~~~ MUSIC MACHINE PROGRAM RUNNING! ~~~" << endl;
+
+    // 
+    std::time_t t = std::time(0);   // Get the time now
+    std::tm* now = std::localtime(&t);
+    std::cout << "Today: " << (now->tm_year + 1900) << '-'
+        << (now->tm_mon + 1) << '-'
+        <<  now->tm_mday
+        << "\n";
+    // Source - https://stackoverflow.com/a/997988
+    // Posted by anon, modified by community. See post 'Timeline' for change history
+    // Retrieved 2026-06-28, License - CC BY-SA 4.0
+    cout << endl;
+    
     fs::path musicMachine = "/Volumes/NO NAME/music"; 
     fs::path musicStore = "/Volumes/sadbunnymus/Music"; 
     cout << "testing music library constructor" << endl;
@@ -130,3 +149,7 @@ void copyInsides(string from, string to, string folder)
     std::cout << "Copied" << endl;
 }
 
+void loadUSB(MusicLibrary ml, fs::path loc)
+{
+
+}

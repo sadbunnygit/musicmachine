@@ -52,6 +52,9 @@ int main(int argc, char* argv[])
         store.loadAlbums(musicStore);
     if (confirm("load " + musicMachine.string() + " into its database? "))
         play.loadAlbums(musicMachine);
+
+    
+    //loadUSB(albums, musicMachine);
     cout << endl;
 }
 
@@ -149,7 +152,10 @@ void copyInsides(string from, string to, string folder)
     std::cout << "Copied" << endl;
 }
 
-void loadUSB(MusicLibrary ml, fs::path loc)
+void loadUSB(vector<Album> albums, fs::path loc)
 {
-
+    for (auto a : albums)
+    {
+        fs::copy(a.path, loc);
+    }
 }

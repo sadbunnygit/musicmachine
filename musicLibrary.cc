@@ -144,6 +144,25 @@ void MusicLibrary::selectData()
 	else
 		cerr << "\e[0;32m"  << "Records selected Successfully!" << "\e[0m" <<endl;
 }
+void MusicLibrary::selectLeastDownloaded()
+{
+	char* errMsg;
+
+	string sql = "SELECT * FROM Albums WHERE download_count == 0;";
+    
+
+	int rc = sqlite3_open(dbFile.c_str(), &DB);
+	/* An open database, SQL to be evaluated, Callback function, 1st argument to callback, Error msg written here*/
+	rc = sqlite3_exec(DB, sql.c_str(), callback, NULL, &errMsg);
+
+	if (rc != SQLITE_OK) 
+    {
+		cerr << "\e[0;31m" "Error in selectData function: " << errMsg << "\e[0m" <<endl;
+		sqlite3_free(errMsg);
+	}
+	else
+		cerr << "\e[0;32m"  << "Records selected Successfully!" << "\e[0m" <<endl;
+}
 // retrieve contents of database used by selectData()
 /* argc: holds the number of results, argv: holds each value in array, azColName: holds each column returned in array, */
 int MusicLibrary::callback(void* NotUsed, int argc, char** argv, char** azColName)
@@ -158,6 +177,7 @@ int MusicLibrary::callback(void* NotUsed, int argc, char** argv, char** azColNam
 
 	return 0;
 }
+
 
 // non-member operator overload
 std::ostream & operator<<( std::ostream & out, const MusicLibrary & ml ) 

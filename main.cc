@@ -159,7 +159,7 @@ void loadUSB(vector<Album> albums, fs::path loc)
     cout << "LOAD USB START" << endl;
     for (auto a : albums)
     {
-        fs::copy(a.path, loc);
+        fs::copy(a.path, loc/a.title);
         cout << "file: " << a << endl;
     }
 }

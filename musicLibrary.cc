@@ -144,16 +144,19 @@ void MusicLibrary::selectData()
 	else
 		cerr << "\e[0;32m"  << "Records selected Successfully!" << "\e[0m" <<endl;
 }
-void MusicLibrary::selectLeastDownloaded()
+vector<Album> MusicLibrary::selectLeastDownloaded() // want to return vector<album>
 {
 	char* errMsg;
 
-	string sql = "SELECT * FROM Albums WHERE download_count == 0;";
+	string sql = "SELECT path, title, artist, size_mb, download_count,last_downloaded FROM Albums WHERE download_count == 0 LIMIT 10;"; // instead of limit 10 should be until size exceeds max
     
-
 	int rc = sqlite3_open(dbFile.c_str(), &DB);
+    vector<Album> albums;   // Stores the albums returned by the query
+
+    // Pass a pointer to the vector so the callback can add Album objects to it.
+    
 	/* An open database, SQL to be evaluated, Callback function, 1st argument to callback, Error msg written here*/
-	rc = sqlite3_exec(DB, sql.c_str(), callback, NULL, &errMsg);
+	rc = sqlite3_exec(DB, sql.c_str(), callback2, &albums, &errMsg);
 
 	if (rc != SQLITE_OK) 
     {
@@ -177,7 +180,25 @@ int MusicLibrary::callback(void* NotUsed, int argc, char** argv, char** azColNam
 
 	return 0;
 }
+int MusicLibrary::callback2(void* data, int argc, char** argv, char** azColName)
+{
+    // Recover the vector<Album> that was passed to sqlite3_exec()
+    auto* albums = static_cast<vector<Album>*>(data);
 
+    // Create an Album from the current row and add it to the vector.
+    // argv[i] contains the value of the ith selected column.
+    albums->emplace_back(
+        argv[0],           // path
+        argv[1],           // title
+        argv[2],           // artist
+        stoi(argv[3]),     // size (convert string to int)
+        stoi(argv[4]),     // download_count (convert string to int)
+        argv[5]            // last_downloaded
+    );
+
+    // Returning 0 tells SQLite to continue processing rows.
+    return 0;
+}
 
 // non-member operator overload
 std::ostream & operator<<( std::ostream & out, const MusicLibrary & ml ) 

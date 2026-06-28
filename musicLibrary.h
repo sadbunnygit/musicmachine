@@ -28,8 +28,10 @@ class MusicLibrary
 
         void updateData();
         void selectData();
-        void MusicLibrary::selectLeastDownloaded();
+        vector<Album> selectLeastDownloaded();
         static int callback(void* NotUsed, int argc, char** argv, char** azColName);
+        static int callback2(void* NotUsed, int argc, char** argv, char** azColName);
+
 
     friend std::ostream & operator<<( std::ostream & out, const MusicLibrary & ml );
 };

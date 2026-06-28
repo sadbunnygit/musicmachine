@@ -19,7 +19,7 @@ void listFilesRecur(string dir);
 bool confirm(const string& message);
 void removeAll(string dir);
 void copyInsides(string from, string to, string folder);
-void loadUSB(MusicLibrary ml, fs::path loc);
+void loadUSB(vector<Album>, fs::path loc);
 
 
 
@@ -54,7 +54,8 @@ int main(int argc, char* argv[])
         play.loadAlbums(musicMachine);
 
     
-    //loadUSB(albums, musicMachine);
+    
+    loadUSB(store.selectLeastDownloaded(), musicMachine);
     cout << endl;
 }
 
@@ -157,5 +158,6 @@ void loadUSB(vector<Album> albums, fs::path loc)
     for (auto a : albums)
     {
         fs::copy(a.path, loc);
+        cout << "file: " << a << endl;
     }
 }

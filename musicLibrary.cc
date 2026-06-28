@@ -165,6 +165,8 @@ vector<Album> MusicLibrary::selectLeastDownloaded() // want to return vector<alb
 	}
 	else
 		cerr << "\e[0;32m"  << "Records selected Successfully!" << "\e[0m" <<endl;
+
+    return albums;
 }
 // retrieve contents of database used by selectData()
 /* argc: holds the number of results, argv: holds each value in array, azColName: holds each column returned in array, */
@@ -187,6 +189,12 @@ int MusicLibrary::callback2(void* data, int argc, char** argv, char** azColName)
 
     // Create an Album from the current row and add it to the vector.
     // argv[i] contains the value of the ith selected column.
+    for (int i = 0; i < argc; i++) 
+    {
+		// column name and value
+		cout << azColName[i] << ": " << argv[i] << endl;
+	}
+
     albums->emplace_back(
         argv[0],           // path
         argv[1],           // title

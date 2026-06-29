@@ -19,9 +19,15 @@ void listFilesRecur(string dir);
 bool confirm(const string& message);
 void removeAll(string dir);
 void copyInsides(string from, string to, string folder);
-void loadUSB(vector<Album>, fs::path loc);
+void loadUSB(vector<Album>, MusicLibrary,fs::path loc);
 
 
+string TODAY()
+{
+    std::time_t t = std::time(0);   // Get the time now
+    std::tm* now = std::localtime(&t);
+    return to_string(now->tm_year + 1900) + "-" + to_string(now->tm_mon + 1) + "-" + to_string(now->tm_mday);
+}
 
 int main(int argc, char* argv[])
 {
@@ -56,7 +62,7 @@ int main(int argc, char* argv[])
     vector<Album> a = store.selectLeastDownloaded();
     cout << a[0] << endl;
 
-    loadUSB(a, musicMachine);
+    loadUSB(a, store, "./music");
     cout << endl;
 }
 
@@ -154,12 +160,17 @@ void copyInsides(string from, string to, string folder)
     std::cout << "Copied" << endl;
 }
 
-void loadUSB(vector<Album> albums, fs::path loc)
+void loadUSB(vector<Album> albums, MusicLibrary ml, fs::path loc)
 {
     cout << "LOAD USB START" << endl;
     for (auto a : albums)
     {
-        fs::copy(a.path, loc/a.title);
         cout << "file: " << a << endl;
+        fs::copy(a.path, loc/a.title);
+        // update data
+        a.downloadCount++;
+        a.lastDownloaded = TODAY();
+        ml.updateData(a);
+        cout << "updated db: " << a << endl;
     }
 }

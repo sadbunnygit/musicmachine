@@ -70,7 +70,7 @@ void MusicLibrary::addAlbum(const Album& a)
         + a.path.string() + "','"
         + to_string(a.sizeMB) + "','"
         + to_string(a.downloadCount) + "','" 
-        + a.lastDownloaded + ");"
+        + a.lastDownloaded + "');"
         ;
 
     int rc = sqlite3_open(dbFile.c_str(), &DB);
@@ -109,11 +109,11 @@ void MusicLibrary::loadAlbums(fs::path loc)
     }
     cout << "--- LOADED ALBUMS FROM " << loc << " END ---" <<endl;
 }
-void MusicLibrary::updateData()
+void MusicLibrary::updateData(const Album& a)
 {
 	char* errMsg;
 
-	string sql("UPDATE GRADES SET GRADE = 'A' WHERE LNAME = 'Cooper'"); // this obv wont work
+	string sql("UPDATE Albums SET download_count = '"+ to_string(a.downloadCount) + "', last_downloaded = '" + a.lastDownloaded + "' WHERE title = '" + a.title + "' AND path = '" + a.path.string() + "';");
 
 	int rc = sqlite3_open(dbFile.c_str(), &DB);
 	/* An open database, SQL to be evaluated, Callback function, 1st argument to callback, Error msg written here */
@@ -148,7 +148,7 @@ vector<Album> MusicLibrary::selectLeastDownloaded() // want to return vector<alb
 {
 	char* errMsg;
 
-	string sql = "SELECT path, title, artist, size_mb, download_count,last_downloaded FROM Albums WHERE download_count == 0 LIMIT 10;"; // instead of limit 10 should be until size exceeds max
+	string sql = "SELECT path, title, artist, size_mb, download_count,last_downloaded FROM Albums WHERE download_count == 0 LIMIT 3;"; // instead of limit 10 should be until size exceeds max
     
 	int rc = sqlite3_open(dbFile.c_str(), &DB);
     vector<Album> albums;   // Stores the albums returned by the query

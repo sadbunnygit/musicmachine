@@ -26,7 +26,7 @@ class MusicLibrary
         void loadAlbums(fs::path loc);
         vector<Album> getAllAlbums();
 
-        void updateData();
+        void updateData(const Album& a);
         void selectData();
         vector<Album> selectLeastDownloaded();
         static int callback(void* NotUsed, int argc, char** argv, char** azColName);

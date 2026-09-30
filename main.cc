@@ -46,7 +46,10 @@ int main(int argc, char* argv[])
     cout << endl;
     
     fs::path musicMachine = "/Volumes/NO NAME/music"; 
-    fs::path musicStore = "/Volumes/sadbunnymus/Music"; 
+    fs::path musicStore = "/Volumes/sadbunnymus/Music";
+
+    copyInsides("/Users/sadbunny/Music/Downloaded by MediaHuman/", musicMachine/"", "Newsies (Original Broadway Soundtrack)");
+    /*
     cout << "testing music library constructor" << endl;
     string storeDB = "./musicStore.db";
     string playDB = "./musicPlayer.db";
@@ -64,6 +67,7 @@ int main(int argc, char* argv[])
 
     loadUSB(a, store, "./music");
     cout << endl;
+    */
 }
 
 
@@ -140,6 +144,7 @@ void removeAll(string dir)
     std::cout << "Deleted" << endl;
 }
 
+/* string from: parent folder to copy from, string to: parent folder to copy into, string folder: the folder actually being copied*/
 void copyInsides(string from, string to, string folder) 
 {
     string msg = "Coping files inside " + from+folder + " to inside this folder" + to+folder;

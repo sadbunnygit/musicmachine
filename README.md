@@ -8,8 +8,8 @@ The goal is to make an app that would allow users to pick new songs to upload by
 
 - **Album library management** - Scan a music directory and record its albums in a SQLite database.
 - **Download history** - Track how many times an album has been selected and when it was last downloaded.
-- **Album selection** — Query the library for albums with low download counts.
-- **File transfer** — Copy selected albums to a destination directory and update their download history.
+- **Album selection** - Query the library for albums with low download counts.
+- **File transfer** - Copy selected albums to a destination directory and update their download history.
 
 ## Tech Stack
 

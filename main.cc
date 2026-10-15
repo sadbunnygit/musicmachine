@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
     fs::path musicMachine = "/Volumes/NO NAME/music"; 
     fs::path musicStore = "/Volumes/sadbunnymus/Music";
 
-    copyInsides("/Users/sadbunny/Music/Downloaded by MediaHuman/", musicMachine/"", "Newsies (Original Broadway Soundtrack)");
+    //copyInsides("/Users/sadbunny/Music/Downloaded by MediaHuman/", musicMachine/"", "Newsies (Original Broadway Soundtrack)");
     /*
     cout << "testing music library constructor" << endl;
     string storeDB = "./musicStore.db";
